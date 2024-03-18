@@ -10,7 +10,7 @@
 
 #pragma region Variables
 
-Vizzy::App app(1920, 600, "Vizzy", 75);
+Vizzy::App app(800, 600, "Vizzy", 75);
 
 
 //internal variables
@@ -43,6 +43,7 @@ int main() {
 		glfwTerminate();
 		return -1;
 	}
+
 
 	//makes the current context from the window
 	glfwMakeContextCurrent(window);

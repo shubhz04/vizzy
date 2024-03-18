@@ -1,7 +1,6 @@
 #include <iostream>
 #include <glad/glad.h>
 
-
 #include "../../../headers/systems/rendering/render.h"
 #include "../../../headers/utility/files.h"
 #include "../../../headers/utility/debug.h"
@@ -34,7 +33,6 @@ void Shader::attach_vertex_shader(const char* _srcData) {
 	glAttachShader(refID,vertShader);
 	glDeleteShader(vertShader);
 }
-
 void Shader::attach_fragment_shader(const char* _srcData) {
 	unsigned int fragShader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragShader, 1, &_srcData, NULL);
@@ -47,7 +45,6 @@ void Shader::attach_fragment_shader(const char* _srcData) {
 	glAttachShader(refID, fragShader);
 	glDeleteShader(fragShader);
 }
-
 void Shader::link_shader_program() {
 	glLinkProgram(refID);
 

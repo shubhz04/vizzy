@@ -18,4 +18,7 @@ namespace Vizzy
 		Shader() {};
 		Shader(const char* _vertShaderFilename, const char* _fragShaderFilename);
 	};
+	class Material {};
+	class Mesh {};
+	class RenderQueue{};
 }
