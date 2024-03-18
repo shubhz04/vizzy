@@ -131,7 +131,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="lib\glad.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\app.cpp" />
+    <ClCompile Include="src\systems\rendering\shader.cpp" />
+    <ClCompile Include="src\systems\time.cpp" />
+    <ClCompile Include="src\utility\resources.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="headers\app.h" />
+    <ClInclude Include="headers\systems\rendering\render.h" />
+    <ClInclude Include="headers\systems\time.h" />
+    <ClInclude Include="headers\utility\debug.h" />
+    <ClInclude Include="headers\utility\files.h" />
+    <ClInclude Include="headers\utility\resources.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="assets\text\readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\frag.glsl" />
+    <None Include="assets\shaders\vert.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
