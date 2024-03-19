@@ -1,5 +1,5 @@
 #pragma once
-
+#include "vizzy_internal.h"
 namespace Vizzy {
 	class App {
 	public:

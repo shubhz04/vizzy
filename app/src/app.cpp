@@ -17,7 +17,17 @@ void App::initialize() {
 	Resources::LoadShader("sprite", "assets/shaders/vert.glsl", "assets/shaders/frag.glsl");
 
 };
-void App::start() {};
+
+
+
+GameObject wallpaper(0, "base-canvas");
+
+void App::start() {
+	wallpaper.transform.set_position(glm::vec3(200, 200, 0));
+	wallpaper.transform.set_rotation(0);
+	wallpaper.transform.set_scale(glm::vec3(300, 300, 1.0f));
+
+};
 void App::update() {};
 void App::exit() {};
 

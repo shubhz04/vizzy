@@ -105,7 +105,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\GraphicsAPI\GLAD\include;C:\GraphicsAPI\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\GraphicsAPI\GLM;C:\GraphicsAPI\GLAD\include;C:\GraphicsAPI\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,17 +134,24 @@
     <ClCompile Include="lib\glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\app.cpp" />
+    <ClCompile Include="src\components\gameobject.cpp" />
+    <ClCompile Include="src\components\transform.cpp" />
+    <ClCompile Include="src\systems\rendering\material.cpp" />
+    <ClCompile Include="src\systems\rendering\mesh.cpp" />
     <ClCompile Include="src\systems\rendering\shader.cpp" />
     <ClCompile Include="src\systems\time.cpp" />
     <ClCompile Include="src\utility\resources.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\app.h" />
+    <ClInclude Include="headers\components\gameobject.h" />
+    <ClInclude Include="headers\components\transform.h" />
     <ClInclude Include="headers\systems\rendering\render.h" />
     <ClInclude Include="headers\systems\time.h" />
     <ClInclude Include="headers\utility\debug.h" />
     <ClInclude Include="headers\utility\files.h" />
     <ClInclude Include="headers\utility\resources.h" />
+    <ClInclude Include="headers\vizzy_internal.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="assets\text\readme.txt" />
