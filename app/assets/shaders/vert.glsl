@@ -10,6 +10,6 @@ out vec2 _texCoords;
 
 void main(){
 
-	gl_Position = vec4(vPos,1.0f);
+	gl_Position = projectionMatrix * modelMatrix * vec4(vPos,1.0f);
 	_texCoords = vTexCoords;
 };

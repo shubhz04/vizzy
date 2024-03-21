@@ -1,6 +1,7 @@
 #include "../headers/app.h"
 #include "../headers/utility/files.h"
 #include "../headers/utility/resources.h"
+
 using namespace Vizzy;
 
 App::App(int _appWidth, int _appHeight, const char* _appTitle, int _targetFPS) {
@@ -32,13 +33,18 @@ void App::initialize() {
 void App::start() {
 	wallpaper.transform.set_position(glm::vec3(200, 200, 0));
 	wallpaper.transform.set_scale(glm::vec3(300, 300, 1.0f));
+	wallpaper.transform.set_rotation(45.0f);
+	wallpaper.mesh.print_buffer();
 
-
+	
 };
 void App::update() {
 
 	this->scene.update();
 	this->scene.render();
+
+	
+
 };
 void App::exit() {};
 

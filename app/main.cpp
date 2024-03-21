@@ -69,8 +69,7 @@ int main() {
 	app.start();
 
 	while (!glfwWindowShouldClose(window)) {
-		//polling for window events
-		glfwPollEvents();
+		
 		//clears the screen with a solid color
 		glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -83,6 +82,13 @@ int main() {
 		if (currFrameTimeBuffer > targetFrameTime) {
 			//Update call here
 			app.update();
+		
+			
+			
+
+			//swaps the front buffer with the backbuffer to show the rendered stuffs
+			glfwSwapBuffers(window);
+			
 			currFrameTimeBuffer = 0;
 		}
 		else
@@ -90,8 +96,8 @@ int main() {
 
 	
 
-		//swaps the front buffer with the backbuffer to show the rendered stuffs
-		glfwSwapBuffers(window);
+		//polling for window events
+		glfwPollEvents();
 	}
 
 	//exit-area

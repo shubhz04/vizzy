@@ -11,7 +11,7 @@ void SceneRenderer::render(unsigned int _VAO, unsigned int _VBO, unsigned int _E
 	glBindVertexArray(_VAO);
 	Shader::Mat4f(_shaderProgram, "modelMatrix", _modelMatrix);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
 
-	Debug::log("VAO ", _VBO);
+	
+	
 }

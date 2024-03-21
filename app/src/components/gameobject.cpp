@@ -12,7 +12,6 @@ void Vizzy::GameObject::initialize()
 
 	mesh.initialize();
 	material.shader.refID = Resources::GetShader("default-shader").refID;
-	mesh.print_buffer();
 };
 void Vizzy::GameObject::start()
 {
