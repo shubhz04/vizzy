@@ -131,6 +131,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\components\camera.cpp" />
+    <ClCompile Include="headers\systems\rendering\scene_renderer.h" />
     <ClCompile Include="lib\glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\app.cpp" />
@@ -138,15 +140,19 @@
     <ClCompile Include="src\components\transform.cpp" />
     <ClCompile Include="src\systems\rendering\material.cpp" />
     <ClCompile Include="src\systems\rendering\mesh.cpp" />
+    <ClCompile Include="src\systems\rendering\scene_renderer.cpp" />
     <ClCompile Include="src\systems\rendering\shader.cpp" />
     <ClCompile Include="src\systems\time.cpp" />
     <ClCompile Include="src\utility\resources.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\app.h" />
+    <ClInclude Include="headers\components\camera.h" />
     <ClInclude Include="headers\components\gameobject.h" />
+    <ClInclude Include="headers\components\sceneobject.h" />
     <ClInclude Include="headers\components\transform.h" />
     <ClInclude Include="headers\systems\rendering\render.h" />
+    <ClInclude Include="headers\systems\scene.h" />
     <ClInclude Include="headers\systems\time.h" />
     <ClInclude Include="headers\utility\debug.h" />
     <ClInclude Include="headers\utility\files.h" />

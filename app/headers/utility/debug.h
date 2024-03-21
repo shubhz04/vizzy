@@ -1,5 +1,5 @@
 #pragma once
-
+#include <iostream>
 class Debug {
 public:
     template<typename ...Args>

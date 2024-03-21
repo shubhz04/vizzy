@@ -1,6 +1,6 @@
 #include <glad/glad.h>
 #include "../../../headers/systems/rendering/render.h"
-
+#include "../../../headers/utility/debug.h"
 using namespace Vizzy;
 
 void Mesh::initialize() {
@@ -80,12 +80,12 @@ void Mesh::calculate_buffer() {
 
 	for (int i = 0; i < bufferDataBlocks; i++)
 	{
-		bufferData[(i * 3) + 0] = vertices[i * 3 + 0];	// POSITION_X
-		bufferData[(i * 3) + 1] = vertices[i * 3 + 1];	// POSITION_Y
-		bufferData[(i * 3) + 2] = vertices[i * 3 + 2];	// POSITION_Z
+		bufferData[(i * 5) + 0] = vertices[i * 3 + 0];	// POSITION_X
+		bufferData[(i * 5) + 1] = vertices[i * 3 + 1];	// POSITION_Y
+		bufferData[(i * 5) + 2] = vertices[i * 3 + 2];	// POSITION_Z
 
-		bufferData[(i * 3) + 3] = vertices[i * 2 + 0];	// UV_X
-		bufferData[(i * 3) + 4] = vertices[i * 3 + 1];	// UV_Y
+		bufferData[(i * 5) + 3] = uv[i * 2 + 0];	// UV_X
+		bufferData[(i * 5) + 4] = uv[i * 2 + 1];	// UV_Y
 	}
 }
 void Mesh::apply() {
@@ -97,22 +97,29 @@ void Mesh::apply() {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(bufferData), &bufferData, GL_STATIC_DRAW);
 
 	//vertices layout declaration
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0); // tells opengl that we can access the first index for reading the vertices
 
 	//uvs layout declaration
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GL_FLOAT), (void*)(3 * sizeof(GL_FLOAT)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5* sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
 	//binding the triangle array
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(triangles), &triangles, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(triangles), &triangles, GL_STATIC_DRAW);
 
 
 	//resetting the current binded buffer to null like state
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-};
+	glBindVertexArray(0);
+}
+void Vizzy::Mesh::print_buffer()
+{
+	for (auto& i : bufferData) {
+		Debug::log(i, " ");
+	}
+}
+;
 
 
 //Need to learn rn -

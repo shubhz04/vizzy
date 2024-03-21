@@ -71,6 +71,9 @@ int main() {
 	while (!glfwWindowShouldClose(window)) {
 		//polling for window events
 		glfwPollEvents();
+		//clears the screen with a solid color
+		glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
 
 		//set time data
 		Time::time = glfwGetTime(); //in seconds
@@ -85,9 +88,7 @@ int main() {
 		else
 			currFrameTimeBuffer += Time::deltaTime;
 
-		//clears the screen with a solid color
-		glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+	
 
 		//swaps the front buffer with the backbuffer to show the rendered stuffs
 		glfwSwapBuffers(window);

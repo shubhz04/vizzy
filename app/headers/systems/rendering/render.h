@@ -16,7 +16,14 @@ namespace Vizzy
 
 		Shader() {};
 		Shader(const char* _vertShaderFilename, const char* _fragShaderFilename);
+
+		static void U1f(unsigned int _shader,const char* _param, float _value);
+		static void Vec2f(unsigned int _shader, const char* _param, glm::vec2 _value);
+		static void Vec4f(unsigned int _shader, const char* _param, glm::vec4 _value);
+		static void Mat4f(unsigned int _shader, const char* _param, glm::mat4 _val);
 	};
+
+	
 	class Material {
 	public:
 		Shader shader;
@@ -25,6 +32,8 @@ namespace Vizzy
 		Material() {};
 		Material(Shader _shader) { shader = _shader; };
 	};
+
+
 	class Mesh {
 	private:
 		std::vector<float> bufferData; // final bufferobject to be uploaded
@@ -45,7 +54,7 @@ namespace Vizzy
 		void apply();
 
 		//extra-stuff
-		void print_buffer() {};
+		void print_buffer();
 	};
-	class RenderQueue {};
+	
 }

@@ -1,9 +1,10 @@
 #include <iostream>
 #include <glad/glad.h>
-
+#include <glad/glad.h>
 #include "../../../headers/systems/rendering/render.h"
 #include "../../../headers/utility/files.h"
 #include "../../../headers/utility/debug.h"
+#include <glm/gtc/type_ptr.hpp>
 
 using namespace Vizzy;
 
@@ -84,3 +85,26 @@ bool Shader::has_link_error() {
 	//linking successfull
 	return false;
 }
+
+
+#pragma region Utility
+void Vizzy::Shader::U1f(unsigned int _shader, const char* _param, float _value)
+{
+	glUseProgram(_shader);
+	glUniform1f(glGetUniformLocation(_shader, _param), _value);
+}
+void Vizzy::Shader::Vec2f(unsigned int _shader, const char* _param, glm::vec2 _value)
+{
+	glUseProgram(_shader);
+	glUniform2f(glGetUniformLocation(_shader, _param), _value.x,_value.y);
+}
+void Vizzy::Shader::Vec4f(unsigned int _shader, const char* _param, glm::vec4 _val) {
+	glUseProgram(_shader);
+	glUniform4f(glGetUniformLocation(_shader, _param), _val.x, _val.y, _val.z, _val.w);
+}
+void Vizzy::Shader::Mat4f(unsigned int _shader, const char* _param, glm::mat4 _val)
+{
+	glUseProgram(_shader);
+	glUniformMatrix4fv(glGetUniformLocation(_shader, _param), 1, GL_FALSE, glm::value_ptr(_val));
+}
+#pragma endregion

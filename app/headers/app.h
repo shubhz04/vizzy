@@ -7,12 +7,15 @@ namespace Vizzy {
 		int width, height;
 		const char* title;
 		int targetFPS;
-
+		//data-container
+		Vizzy::Scene scene;
 
 
 		//def-constrct
 		App(int _appWidth, int _appHeight,const char* _appTitle = "Default App",int _targetFPS = 60);
 	
+		
+
 		void initialize();
 		void start();
 		void update();
