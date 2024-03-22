@@ -1,2 +1,4 @@
 .vs/
 Vizzy/
+Vizzy.vcxproj
+lib/glad.c

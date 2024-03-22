@@ -28,6 +28,7 @@ void GameObject::render() {
 		mesh.VBO,
 		mesh.EBO,
 		material.shader.refID,
+		material.mainColor,
 		transform.modelMatrix
 	);
 };

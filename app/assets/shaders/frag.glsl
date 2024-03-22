@@ -3,9 +3,10 @@
 
 in vec2 _texCoords;
 
+uniform vec4 _MainColor;
 
 //final output of this shader
 out vec4 fragColor;
 void main(){
-	fragColor = vec4(0.2f,0.3f,0.4f,1);
+	fragColor = _MainColor;
 };

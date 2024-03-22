@@ -1,6 +1,4 @@
 #include "../headers/app.h"
-#include "../headers/utility/files.h"
-#include "../headers/utility/resources.h"
 
 using namespace Vizzy;
 
@@ -19,32 +17,34 @@ GameObject wallpaper(0, "base-canvas");
 
 void App::initialize() {
 
-	//lets try reading that file
+	//[-----Load Resources-----]
 	Resources::LoadShader("default-shader", "assets/shaders/vert.glsl", "assets/shaders/frag.glsl");
 
+	//[---Add Scene Bindings---]
 	this->scene.add(&wallpaper);
 
 
+	//[----Initialize Scene----]
 	this->scene.camera.set_projection_matrix(Resources::GetShader("default-shader").refID, width, height);
 	this->scene.initialize();
 };
 
 
 void App::start() {
+	//Start is called once after initialization
 	wallpaper.transform.set_position(glm::vec3(200, 200, 0));
 	wallpaper.transform.set_scale(glm::vec3(300, 300, 1.0f));
-	wallpaper.transform.set_rotation(45.0f);
 	wallpaper.mesh.print_buffer();
 
-	
+
 };
 void App::update() {
 
+	wallpaper.transform.set_position(glm::vec3(Mouse::x, Mouse::y, 0));
+
+
 	this->scene.update();
 	this->scene.render();
-
-	
-
 };
 void App::exit() {};
 

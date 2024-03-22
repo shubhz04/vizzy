@@ -1,8 +1,14 @@
 #pragma once
 #include "vizzy_internal.h"
+#include "utility/files.h"
+#include "utility/resources.h"
+
 namespace Vizzy {
 	class App {
 	public:
+		//internal-data
+		static long int hwnd;
+
 		//app-properties
 		int width, height;
 		const char* title;
@@ -21,10 +27,6 @@ namespace Vizzy {
 		void update();
 		void exit();
 
-		void resize(int _x, int _y);
-		
-	
-	
-	
+		void resize(int _x, int _y);	
 	};
 }

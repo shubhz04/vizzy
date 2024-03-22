@@ -27,7 +27,7 @@ namespace Vizzy
 	class Material {
 	public:
 		Shader shader;
-		glm::vec4 mainColor = glm::vec4(1.0f);
+		glm::vec4 mainColor = glm::vec4(0);
 
 		Material() {};
 		Material(Shader _shader) { shader = _shader; };

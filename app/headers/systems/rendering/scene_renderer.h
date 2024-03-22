@@ -4,7 +4,7 @@ namespace Vizzy {
 	class SceneRenderer {
 	public:
 		
-		static void render(unsigned int _VAO,unsigned int _VBO, unsigned int _EBO, unsigned int _shader,glm::mat4 modelMatrix);
+		static void render(unsigned int _VAO,unsigned int _VBO, unsigned int _EBO, unsigned int _shader,glm::vec4 _mainColor,glm::mat4 modelMatrix);
 
 	};
 }
