@@ -19,6 +19,7 @@ void App::initialize() {
 	//[-----Load Resources-----]
 	Resources::LoadShader("default-shader", "assets/shaders/vert.glsl", "assets/shaders/frag.glsl");
 	Resources::LoadTexture2D("popcat", "C:\\Users\\shubhz\\Downloads\\wallpaper.jpg");
+	Resources::LoadTexture2D("apple", "C:\\Users\\shubhz\\Downloads\\file.jpg");
 
 
 	//[---Add Scene Bindings---]
@@ -33,15 +34,15 @@ void App::initialize() {
 
 void App::start() {
 	//Start is called once after initialization
-	wallpaper.transform.set_position(glm::vec3(200, 200, 0));
-	wallpaper.transform.set_scale(glm::vec3(300, 300, 1.0f));
+	wallpaper.transform.set_position(glm::vec3(0, 0, 0));
+	wallpaper.transform.set_scale(glm::vec3(width, height, 1.0f));
 	wallpaper.material.mainTex.refID = Resources::GetTexture2D("popcat");
+	wallpaper.material.secondaryTex.refID = Resources::GetTexture2D("apple");
 
 
 };
 void App::update() {
 
-	wallpaper.transform.set_position(glm::vec3(Mouse::x, Mouse::y, 0));
 	
 
 	this->scene.update();

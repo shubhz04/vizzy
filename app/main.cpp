@@ -33,9 +33,7 @@ void window_resize_callback(GLFWwindow* _window);
 
 int main() {
 #pragma region Init GLFW
-
-
-	Debug::log("Starting App");
+	Debug::log("Starting App ...");
 
 	//initializes glfw
 	glfwInit();
@@ -72,13 +70,14 @@ int main() {
 	glfwSetWindowRefreshCallback(window, window_resize_callback);
 	glfwSetFramebufferSizeCallback(window, viewport_resize_callback);
 
-	Debug::log("OpenGL context is initialized.");
+	Debug::log("OpenGL context initialized.");
 #pragma endregion
 
 #pragma region ExtraConfigGL
 	//doesn't causes the app to crash if Non POTS textures are uploaded by user
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
+	//enables alpha blending for transparent textures 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -111,12 +110,14 @@ int main() {
 			//swaps the front buffer with the backbuffer to show the rendered stuffs
 			glfwSwapBuffers(window);
 			currFrameTimeBuffer = 0;
+
+			//Polls for window updates
+			glfwPollEvents();
 		}
 		else
 			currFrameTimeBuffer += Time::deltaTime;
 
-		//Polls for window updates
-		glfwPollEvents();
+		
 	}
 
 	//exit-area
@@ -134,7 +135,6 @@ int main() {
 #pragma region Definitions
 void viewport_resize_callback(GLFWwindow* _window, int _x, int _y) {
 
-	Debug::log("Viewport resized");
 	glViewport(0, 0, _x, _y);
 	app.resize(_x, _y);
 }
@@ -146,14 +146,13 @@ void process_input() {
 	}
 }
 void window_resize_callback(GLFWwindow* _window) {
-
+	
+	//continues drawing even while resizing windows
 	glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	//Update call here
 	app.update();
 
-	//swaps the front buffer with the backbuffer to show the rendered stuffs
 	glfwSwapBuffers(_window);
 	glFinish();
 }

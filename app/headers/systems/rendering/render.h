@@ -6,9 +6,11 @@ namespace Vizzy
 	class Texture2D {
 	public:
 		int width, height, nrChannels;
+		int texFormat = -1;
+		bool hasAlpha ;
+
 		unsigned int refID = 0;
 		
-		int texFormat = -1;
 
 		operator unsigned int() const { return refID; }
 
@@ -45,6 +47,7 @@ namespace Vizzy
 	public:
 		Shader shader;
 		Texture2D mainTex;
+		Texture2D secondaryTex;
 		glm::vec4 mainColor = glm::vec4(0);
 
 		Material() {};
