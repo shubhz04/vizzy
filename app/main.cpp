@@ -1,10 +1,12 @@
 #define GLFW_EXPOSE_NATIVE_WIN32
+
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
 #include <Windows.h>
 #include <thread>
+#include <stb/stb_image.h>
 
 #include "headers/app.h"
 #include "headers/utility/debug.h"
@@ -51,7 +53,6 @@ int main() {
 		return -1;
 	}
 
-
 	//makes the current context from the window
 	glfwMakeContextCurrent(window);
 
@@ -70,23 +71,35 @@ int main() {
 	glViewport(0, 0, app.width, app.height);
 	glfwSetWindowRefreshCallback(window, window_resize_callback);
 	glfwSetFramebufferSizeCallback(window, viewport_resize_callback);
+
+	Debug::log("OpenGL context is initialized.");
+#pragma endregion
+
+#pragma region ExtraConfigGL
+	//doesn't causes the app to crash if Non POTS textures are uploaded by user
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 #pragma endregion
 
 	//starts the input thread
 	Vizzy::Mouse::initialize((long)glfwGetWin32Window(window));
 	std::thread inputThread(process_input);
-	
+
 	//Fires the app initalize events
 	app.initialize();
 	app.start();
 
 	while (!glfwWindowShouldClose(window)) {
-		
+
 		//set time data
 		Time::time = glfwGetTime(); //in seconds
 		Time::deltaTime = Time::time - lastFrameTime; //in ms
 		lastFrameTime = Time::time;
 
+		//set-framerate-cap
 		if (currFrameTimeBuffer > targetFrameTime) {
 			//clears the screen with a solid color
 			glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
@@ -102,14 +115,13 @@ int main() {
 		else
 			currFrameTimeBuffer += Time::deltaTime;
 
-
 		//Polls for window updates
 		glfwPollEvents();
 	}
 
 	//exit-area
 	app.exit();
-	
+
 
 	inputThread.detach();
 	Vizzy::Mouse::dispose();
@@ -128,7 +140,7 @@ void viewport_resize_callback(GLFWwindow* _window, int _x, int _y) {
 }
 
 void process_input() {
-	while(true){
+	while (true) {
 		Vizzy::Mouse::process_events();
 		Sleep(5);
 	}

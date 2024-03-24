@@ -11,7 +11,7 @@ void Vizzy::GameObject::initialize()
 {
 
 	mesh.initialize();
-	material.shader.refID = Resources::GetShader("default-shader").refID;
+	material.shader.refID = Resources::GetShader("default-shader");
 };
 void Vizzy::GameObject::start()
 {
@@ -23,12 +23,5 @@ void GameObject::update() {
 };
 
 void GameObject::render() {
-	SceneRenderer::render(
-		mesh.VAO,
-		mesh.VBO,
-		mesh.EBO,
-		material.shader.refID,
-		material.mainColor,
-		transform.modelMatrix
-	);
+	SceneRenderer::render(mesh, material, transform.modelMatrix);
 };

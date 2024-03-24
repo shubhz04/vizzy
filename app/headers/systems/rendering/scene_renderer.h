@@ -1,10 +1,11 @@
 #pragma once
 #include <glm/glm.hpp>
+#include "render.h"
 namespace Vizzy {
 	class SceneRenderer {
 	public:
 		
-		static void render(unsigned int _VAO,unsigned int _VBO, unsigned int _EBO, unsigned int _shader,glm::vec4 _mainColor,glm::mat4 modelMatrix);
+		static void render(Mesh& _mesh,Material& _mat,glm::mat4 modelMatrix);
 
 	};
 }

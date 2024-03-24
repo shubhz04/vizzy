@@ -3,6 +3,21 @@
 #include <vector>
 namespace Vizzy
 {
+	class Texture2D {
+	public:
+		int width, height, nrChannels;
+		unsigned int refID = 0;
+		
+		int texFormat = -1;
+
+		operator unsigned int() const { return refID; }
+
+		Texture2D() {};
+		Texture2D(const char* _fileName) { load_image(_fileName); };
+
+		void load_image(const char* _filename);
+	};
+
 	class Shader {
 	private:
 		void attach_vertex_shader(const char* _srcData);
@@ -17,22 +32,24 @@ namespace Vizzy
 		Shader() {};
 		Shader(const char* _vertShaderFilename, const char* _fragShaderFilename);
 
-		static void U1f(unsigned int _shader,const char* _param, float _value);
+		operator unsigned int() const { return refID; }
+
+
+		static void U1f(unsigned int _shader, const char* _param, float _value);
 		static void Vec2f(unsigned int _shader, const char* _param, glm::vec2 _value);
 		static void Vec4f(unsigned int _shader, const char* _param, glm::vec4 _value);
 		static void Mat4f(unsigned int _shader, const char* _param, glm::mat4 _val);
 	};
 
-	
 	class Material {
 	public:
 		Shader shader;
+		Texture2D mainTex;
 		glm::vec4 mainColor = glm::vec4(0);
 
 		Material() {};
 		Material(Shader _shader) { shader = _shader; };
 	};
-
 
 	class Mesh {
 	private:
@@ -42,7 +59,7 @@ namespace Vizzy
 		unsigned int VAO = 0, VBO = 0, EBO = 0;
 		std::vector<float> vertices, uv;
 		std::vector<int> triangles;
-		
+
 		Mesh() {};
 
 		void initialize();
@@ -55,6 +72,8 @@ namespace Vizzy
 
 		//extra-stuff
 		void print_buffer();
+
+
 	};
-	
+
 }
