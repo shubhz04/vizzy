@@ -1,35 +1,34 @@
 #define GLFW_EXPOSE_NATIVE_WIN32
-
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
 #include <Windows.h>
 #include <thread>
-#include <stb/stb_image.h>
+
 
 #include "headers/app.h"
 #include "headers/utility/debug.h"
-#include "headers/utility/files.h"
+
 #include "headers/systems/time.h"
 
-#pragma region Variables
 
+//app----->  (width | height| name | fps)
 Vizzy::App app(800, 600, "Vizzy", 75);
 
-//fps-limiter
-float targetFrameTime = 1.0f / app.targetFPS; //in ms (ex: 1000/60 approx 16 ms)
-float deltaTime, lastFrameTime, currFrameTimeBuffer;
+//fps-limiter => [VALUES IN SECONDS] 
+float targetFrameTime = 1.0f / app.targetFPS; 
+float deltaTime;
+float lastFrameTime; 
+float currFrameTimeBuffer;
 
-#pragma endregion
+
+void process_input();
+
 #pragma region Callbacks
 void viewport_resize_callback(GLFWwindow* _window, int _x, int _y);
-#pragma endregion
-#pragma region ModuleFunc
-void process_input();
 void window_resize_callback(GLFWwindow* _window);
 #pragma endregion
-
 
 int main() {
 #pragma region Init GLFW
@@ -95,7 +94,7 @@ int main() {
 
 		//set time data
 		Time::time = glfwGetTime(); //in seconds
-		Time::deltaTime = Time::time - lastFrameTime; //in ms
+		Time::deltaTime = Time::time - lastFrameTime; //in seconds
 		lastFrameTime = Time::time;
 
 		//set-framerate-cap
@@ -115,14 +114,12 @@ int main() {
 			glfwPollEvents();
 		}
 		else
-			currFrameTimeBuffer += Time::deltaTime;
-
-		
+			currFrameTimeBuffer += Time::deltaTime;		
+	
 	}
 
 	//exit-area
 	app.exit();
-
 
 	inputThread.detach();
 	Vizzy::Mouse::dispose();
@@ -133,21 +130,24 @@ int main() {
 
 
 #pragma region Definitions
-void viewport_resize_callback(GLFWwindow* _window, int _x, int _y) {
 
-	glViewport(0, 0, _x, _y);
-	app.resize(_x, _y);
-}
-
+//runs a loop to continously peek into the message queue and process events on seperate thread
 void process_input() {
 	while (true) {
 		Vizzy::Mouse::process_events();
 		Sleep(5);
 	}
 }
+
+//resize viewport when framebuffersize changes
+void viewport_resize_callback(GLFWwindow* _window, int _x, int _y) {
+
+	glViewport(0, 0, _x, _y);
+	app.resize(_x, _y);
+}
+//continues drawing even while resizing windows
 void window_resize_callback(GLFWwindow* _window) {
 	
-	//continues drawing even while resizing windows
 	glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 

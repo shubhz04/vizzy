@@ -1,5 +1,5 @@
 #include "../headers/app.h"
-#include <glad/glad.h>
+
 using namespace Vizzy;
 
 App::App(int _appWidth, int _appHeight, const char* _appTitle, int _targetFPS) {
@@ -18,8 +18,8 @@ void App::initialize() {
 
 	//[-----Load Resources-----]
 	Resources::LoadShader("default-shader", "assets/shaders/vert.glsl", "assets/shaders/frag.glsl");
-	Resources::LoadTexture2D("popcat", "C:\\Users\\shubhz\\Downloads\\wallpaper.jpg");
-	Resources::LoadTexture2D("apple", "C:\\Users\\shubhz\\Downloads\\file.jpg");
+	Resources::LoadTexture2D("popcat", "C:\\Users\\shubhz\\Downloads\\dia.png");
+	Resources::LoadTexture2D("apple", "C:\\Users\\shubhz\\Downloads\\dia.png");
 
 
 	//[---Add Scene Bindings---]
@@ -39,19 +39,26 @@ void App::start() {
 	wallpaper.material.mainTex.refID = Resources::GetTexture2D("popcat");
 	wallpaper.material.secondaryTex.refID = Resources::GetTexture2D("apple");
 
+	
+	Vizzy::OpenFolderDialogResult targetFolder = Vizzy::FileManager::open_folder_dialog();
+	std::string selectedPath = (targetFolder.result == SUCCCESS) ? targetFolder.path : "NULL";
+	Debug::log(selectedPath);
 
 };
 void App::update() {
-
+	//Update is called every frame
 	
-
+	
 	this->scene.update();
 	this->scene.render();
 };
-void App::exit() {};
+void App::exit() {
+	//exit is called upon WM_EXIT
+
+};
 
 void App::resize(int _x, int _y) {
-
+	//resize is called every time the user resizes the window
 	this->width = _x; this->height = _y;
 	this->scene.camera.set_projection_matrix(Resources::GetShader("default-shader").refID
 		, this->width
