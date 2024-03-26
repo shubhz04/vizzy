@@ -1,28 +1,54 @@
 /*
-* this header contains all the functions needed for manipulating dwm 
-  to send the window back and forth 
+* this header contains all the functions needed for manipulating dwm
+  to send the window back and forth
 */
 #pragma once
+#include <vector>
+#include <string>
 namespace Vizzy {
 	class DWM {
 	public:
+		struct VZ_RECT {
+			int x, y;
+			int width, height;
+
+			VZ_RECT() { x = y = width = height = 0; };
+			VZ_RECT(int _x, int _y, int _width, int _height) {
+				x = _x; y = _y;
+				width = _width;
+				height = _height;
+			}
+		};
+		struct VZ_WINDOW {
+			std::string name;
+			VZ_RECT rect;
+
+			VZ_WINDOW(std::string _name, VZ_RECT _rect) {
+				name = _name;
+				rect = _rect;
+			}
+		};
 
 		static long WALLPAPER_WORKERW_HWND;
 		static long SHELLDLL_WORKERW_HWND;
 		static long SHELLDLL_HWND;
 		static long SHELLDLL_LISTVIEW_HWND;
 
+		static std::vector<VZ_WINDOW> activeWindowList;
 		// Initializes all the necessary handles 
 		static void initialize();
-		//gets the workerw hwnd which handles wallpaper transitions
-		static long get_workerw_hwnd();
+
 
 		// Prints all HWND data to the console
 		static void log_hwnds();
-	
+
+		// Gets all user desktop windows rect and names
+		// Ignores system default windows which aren't visible
+		static bool query_active_windows();
+
 	};
-	
-	
+
+
 
 }
 

@@ -1,5 +1,4 @@
 #include "../headers/app.h"
-
 using namespace Vizzy;
 
 App::App(int _appWidth, int _appHeight, const char* _appTitle, int _targetFPS) {
@@ -16,6 +15,7 @@ GameObject wallpaper(0, "base-canvas");
 
 void App::initialize() {
 
+	
 	// [-----Load Resources-----]
 	Resources::LoadShader("default-shader", "assets/shaders/vert.glsl", "assets/shaders/frag.glsl");
 	Resources::LoadTexture2D("popcat", "C:\\Users\\shubhz\\Downloads\\dia.png");
