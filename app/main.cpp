@@ -17,9 +17,9 @@
 Vizzy::App app(800, 600, "Vizzy", 75);
 
 //fps-limiter => [VALUES IN SECONDS] 
-float targetFrameTime = 1.0f / app.targetFPS; 
+float targetFrameTime = 1.0f / app.targetFPS;
 float deltaTime;
-float lastFrameTime; 
+float lastFrameTime;
 float currFrameTimeBuffer;
 
 
@@ -32,17 +32,18 @@ void window_resize_callback(GLFWwindow* _window);
 
 int main() {
 #pragma region Init GLFW
+
 	Debug::log("Starting App ...");
 
-	//initializes glfw
+	// Initializes glfw
 	glfwInit();
 
-	//set window hints for creating the window and context
+	// Set window hints for creating the window and context.
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	//create a window, and check if its created
+	// Create a window, and check if its created.
 	GLFWwindow* window = glfwCreateWindow(app.width, app.height, app.title, NULL, NULL);
 	if (window == NULL) {
 		Debug::log("Creating window failed. Exiting...");
@@ -50,13 +51,13 @@ int main() {
 		return -1;
 	}
 
-	//makes the current context from the window
+	// Make the current context from the window.
 	glfwMakeContextCurrent(window);
 
-	//setting Vsync for not wasting GPU, swap with our monitors refresh rate basically capping it 
+	// Setting Vsync for not wasting GPU.
 	glfwSwapInterval(1);
 
-	//load glad for OpenGl
+	// Load glad for OpenGL.
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		//if failed intializing
 		Debug::log("Glad initialize failed...");
@@ -64,7 +65,7 @@ int main() {
 		return -1;
 	}
 
-	//creates the opengl viewport and registers the callback for resize
+	// Creates the opengl viewport and register the callbacks for resize.
 	glViewport(0, 0, app.width, app.height);
 	glfwSetWindowRefreshCallback(window, window_resize_callback);
 	glfwSetFramebufferSizeCallback(window, viewport_resize_callback);
@@ -73,31 +74,34 @@ int main() {
 #pragma endregion
 
 #pragma region ExtraConfigGL
-	//doesn't causes the app to crash if Non POTS textures are uploaded by user
+	// Doesn't causes the app to crash if NON-POTS textures are uploaded by user.
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-	//enables alpha blending for transparent textures 
+	// Enables alpha blending for transparent textures.
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 #pragma endregion
 
-	//starts the input thread
+	// Initializes utility classes.
 	Vizzy::Mouse::initialize((long)glfwGetWin32Window(window));
+	Vizzy::DWM::initialize();
+
+	// Starts the input thread.
 	std::thread inputThread(process_input);
 
-	//Fires the app initalize events
+	// Fires the app initalize events.
 	app.initialize();
 	app.start();
 
 	while (!glfwWindowShouldClose(window)) {
 
-		//set time data
+		// Set time data.
 		Time::time = glfwGetTime(); //in seconds
 		Time::deltaTime = Time::time - lastFrameTime; //in seconds
 		lastFrameTime = Time::time;
 
-		//set-framerate-cap
+		// set-framerate-cap
 		if (currFrameTimeBuffer > targetFrameTime) {
 			//clears the screen with a solid color
 			glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
@@ -114,11 +118,11 @@ int main() {
 			glfwPollEvents();
 		}
 		else
-			currFrameTimeBuffer += Time::deltaTime;		
-	
+			currFrameTimeBuffer += Time::deltaTime;
+
 	}
 
-	//exit-area
+	// exit-area
 	app.exit();
 
 	inputThread.detach();
@@ -147,7 +151,7 @@ void viewport_resize_callback(GLFWwindow* _window, int _x, int _y) {
 }
 //continues drawing even while resizing windows
 void window_resize_callback(GLFWwindow* _window) {
-	
+
 	glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 

@@ -2,7 +2,7 @@
 #include "vizzy_internal.h"
 #include "utility/files.h"
 #include "utility/resources.h"
-
+#include "utility/dwm.h"
 namespace Vizzy {
 	class App {
 	public:

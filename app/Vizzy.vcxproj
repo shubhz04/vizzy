@@ -105,13 +105,13 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\GraphicsAPI\GLM;C:\GraphicsAPI\GLAD\include;C:\GraphicsAPI\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\GLFW\include;C:\GraphicsAPI\GLM;C:\GraphicsAPI\GLAD\include;C:\GraphicsAPI\GLFW\include;%(AdditionalIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\GraphicsAPI\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files\GLFW\lib-vc2017;C:\GraphicsAPI\GLFW\lib-vc2022;%(AdditionalLibraryDirectories);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -122,28 +122,39 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Program Files\GLFW\include;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Program Files\GLFW\lib-vc2017;;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\utility\file_manager.cpp" />
+    <ClCompile Include="lib\stb.cpp" />
     <ClCompile Include="src\components\camera.cpp" />
     <ClCompile Include="headers\systems\rendering\scene_renderer.h" />
     <ClCompile Include="lib\glad.c" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="main.cpp">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
     <ClCompile Include="src\app.cpp" />
     <ClCompile Include="src\components\gameobject.cpp" />
     <ClCompile Include="src\components\transform.cpp" />
+    <ClCompile Include="src\systems\input\mouse.cpp" />
     <ClCompile Include="src\systems\rendering\material.cpp" />
     <ClCompile Include="src\systems\rendering\mesh.cpp" />
     <ClCompile Include="src\systems\rendering\scene_renderer.cpp" />
     <ClCompile Include="src\systems\rendering\shader.cpp" />
+    <ClCompile Include="src\systems\rendering\texture2d.cpp" />
     <ClCompile Include="src\systems\time.cpp" />
     <ClCompile Include="src\utility\resources.cpp" />
+    <ClCompile Include="src\utility\dwm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\app.h" />
@@ -151,12 +162,15 @@
     <ClInclude Include="headers\components\gameobject.h" />
     <ClInclude Include="headers\components\sceneobject.h" />
     <ClInclude Include="headers\components\transform.h" />
+    <ClInclude Include="headers\systems\devices\display.h" />
+    <ClInclude Include="headers\systems\input\input.h" />
     <ClInclude Include="headers\systems\rendering\render.h" />
     <ClInclude Include="headers\systems\scene.h" />
     <ClInclude Include="headers\systems\time.h" />
     <ClInclude Include="headers\utility\debug.h" />
     <ClInclude Include="headers\utility\files.h" />
     <ClInclude Include="headers\utility\resources.h" />
+    <ClInclude Include="headers\utility\dwm.h" />
     <ClInclude Include="headers\vizzy_internal.h" />
   </ItemGroup>
   <ItemGroup>
