@@ -15,7 +15,7 @@ GameObject wallpaper(0, "base-canvas");
 
 void App::initialize() {
 
-	
+
 	// [-----Load Resources-----]
 	Resources::LoadShader("default-shader", "assets/shaders/vert.glsl", "assets/shaders/frag.glsl");
 	Resources::LoadTexture2D("popcat", "C:\\Users\\shubhz\\Downloads\\dia.png");
@@ -23,7 +23,7 @@ void App::initialize() {
 
 
 	// [---Add Scene Bindings---]
-	this->scene.add(&wallpaper);
+	//this->scene.add(&wallpaper);
 
 
 	// [----Initialize Scene----]
@@ -43,6 +43,29 @@ void App::start() {
 	// Temp
 	Vizzy::DWM::log_hwnds();
 
+	if (Vizzy::DWM::query_active_windows())
+	{
+		for (auto& i : Vizzy::DWM::activeWindowList)
+		{
+			Debug::log("NAME ",i.name, "RECT : ", i.rect.left, " ", i.rect.top, " ", i.rect.right, " ", i.rect.bottom);
+		}
+	}
+
+	Debug::log("Checking if 512,512 is obscured or not? ");
+	std::vector<VZ_POINT> cpointList;
+	VZ_POINT cpoint(1360, 710);
+	cpointList.push_back(cpoint);
+
+
+	DWM::configure_sample_points(40, 8, 10);
+
+	for (auto& i : DWM::samplePoints) {
+		Debug::log(" POINT : ", i.x, " ", i.y);
+	}
+
+	bool res = Vizzy::DWM::is_desktop_obscured(DWM::samplePoints, DWM::activeWindowList);
+
+	Debug::log("DSKTOP OBSCRD --> ", res);
 
 	//Vizzy::OpenFolderDialogResult targetFolder = Vizzy::FileManager::open_folder_dialog();
 	//std::string selectedPath = (targetFolder.result == SUCCCESS) ? targetFolder.path : "NULL";

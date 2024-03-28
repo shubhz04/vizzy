@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\systems\devices\display.cpp" />
     <ClCompile Include="src\utility\file_manager.cpp" />
     <ClCompile Include="lib\stb.cpp" />
     <ClCompile Include="src\components\camera.cpp" />
