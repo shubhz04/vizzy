@@ -9,7 +9,6 @@
 
 #include "headers/app.h"
 #include "headers/utility/debug.h"
-
 #include "headers/systems/time.h"
 
 
@@ -87,8 +86,9 @@ int main() {
 	Vizzy::Mouse::initialize((long)glfwGetWin32Window(window));
 	Vizzy::DWM::initialize();
 
-	// Starts the input thread.
+	// Starts the input thread and DWM thread
 	std::thread inputThread(process_input);
+	std::thread dwmThread(Vizzy::DWM::dwm_loopback);
 
 	// Fires the app initalize events.
 	app.initialize();
@@ -103,6 +103,7 @@ int main() {
 
 		// set-framerate-cap
 		if (currFrameTimeBuffer > targetFrameTime) {
+
 			//clears the screen with a solid color
 			glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
@@ -110,11 +111,16 @@ int main() {
 			//Update call here
 			app.update();
 
-			//swaps the front buffer with the backbuffer to show the rendered stuffs
-			glfwSwapBuffers(window);
+			// Draw the current state if the desktop is focused, (SAVES GPU!!)
+			if (!Vizzy::DWM::isFocused) {
+				app.render();
+				glfwSwapBuffers(window);
+			}
+
+			// Resets the timebuffer after a frame is done
 			currFrameTimeBuffer = 0;
 
-			//Polls for window updates
+			// Poll for window events
 			glfwPollEvents();
 		}
 		else
@@ -126,6 +132,9 @@ int main() {
 	app.exit();
 
 	inputThread.detach();
+	dwmThread.detach();
+
+
 	Vizzy::Mouse::dispose();
 
 	glfwTerminate();
@@ -135,13 +144,14 @@ int main() {
 
 #pragma region Definitions
 
-//runs a loop to continously peek into the message queue and process events on seperate thread
+// Runs a loop to continously peek into the message queue and process events on seperate thread
 void process_input() {
 	while (true) {
 		Vizzy::Mouse::process_events();
 		Sleep(5);
 	}
 }
+
 
 //resize viewport when framebuffersize changes
 void viewport_resize_callback(GLFWwindow* _window, int _x, int _y) {

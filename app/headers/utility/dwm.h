@@ -38,7 +38,7 @@ namespace Vizzy {
 		long hwnd;
 		VZ_RECT rect;
 
-		VZ_WINDOW(std::string _name,long _hwnd, VZ_RECT _rect) {
+		VZ_WINDOW(std::string _name, long _hwnd, VZ_RECT _rect) {
 			name = _name;
 			hwnd = _hwnd;
 			rect = _rect;
@@ -52,6 +52,10 @@ namespace Vizzy {
 
 	class DWM {
 	public:
+		// Consts
+		const static int DWM_UPDATE_INTERVAL = 500;
+
+
 		// ----------- HWNDS -------------
 		static long WALLPAPER_WORKERW_HWND;
 		static long SHELLDLL_HWND;
@@ -59,6 +63,9 @@ namespace Vizzy {
 		static long SHELLDLL_WORKERW_HWND;
 		// -------------------------------
 
+
+		static bool isFocused;
+		static bool isShellFocused;
 
 		// List of active windows in desktop.
 		static std::vector<VZ_WINDOW> activeWindowList;
@@ -78,7 +85,8 @@ namespace Vizzy {
 		static void configure_sample_points(int _padding, int _rows, int _columns);
 		static bool is_desktop_obscured(std::vector<VZ_POINT> _queryPoints, std::vector<VZ_WINDOW> _activeWindows);
 
-		
+		// Runs a loop on seperate thread to continously check for desktop obscuration every n interval.
+		static void dwm_loopback();
 	};
 
 

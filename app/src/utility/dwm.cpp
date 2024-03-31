@@ -10,6 +10,7 @@ long DWM::SHELLDLL_WORKERW_HWND;
 long DWM::SHELLDLL_HWND;
 long DWM::SHELLDLL_LISTVIEW_HWND;
 
+bool DWM::isFocused;
 std::vector<VZ_WINDOW> DWM::activeWindowList;
 std::vector<VZ_POINT> DWM::samplePoints;
 
@@ -85,6 +86,7 @@ BOOL CALLBACK GET_WINDOWS_PROC(HWND hwnd, LPARAM lParam) {
 }
 
 
+
 void DWM::initialize()
 {
 	// Fetch the Progman window
@@ -101,9 +103,11 @@ void DWM::initialize()
 
 	DWM::WALLPAPER_WORKERW_HWND = (long)wallpaper_workerw_hwnd;
 
-}
+	// Sets the sample points (PADDING IN PX, ROWS , COLS)
+	DWM::configure_sample_points(40, 8, 10);
 
-void Vizzy::DWM::log_hwnds()
+}
+void DWM::log_hwnds()
 {
 	Debug::log("----- DWM HWNDS ------");;
 	Debug::log("WALLWORKER   : ", Vizzy::DWM::WALLPAPER_WORKERW_HWND);
@@ -113,8 +117,7 @@ void Vizzy::DWM::log_hwnds()
 	Debug::log("----------------------");;
 
 }
-
-bool Vizzy::DWM::query_active_windows()
+bool DWM::query_active_windows()
 {
 	// Resets the existing vector
 	activeWindowList.clear();
@@ -129,8 +132,7 @@ bool Vizzy::DWM::query_active_windows()
 	else
 		return false;
 }
-
-bool Vizzy::DWM::is_desktop_obscured(std::vector<VZ_POINT> _queryPoints, std::vector<VZ_WINDOW> _activeWindows)
+bool DWM::is_desktop_obscured(std::vector<VZ_POINT> _queryPoints, std::vector<VZ_WINDOW> _activeWindows)
 {
 	std::vector<bool> result(_queryPoints.size());
 
@@ -153,8 +155,7 @@ bool Vizzy::DWM::is_desktop_obscured(std::vector<VZ_POINT> _queryPoints, std::ve
 	}
 	return true;
 }
-
-void Vizzy::DWM::configure_sample_points(int _padding, int _rows, int _columns)
+void DWM::configure_sample_points(int _padding, int _rows, int _columns)
 {
 
 
@@ -162,20 +163,30 @@ void Vizzy::DWM::configure_sample_points(int _padding, int _rows, int _columns)
 
 	int minY = _padding, maxY = Display::height - _padding;
 
-	int xGap = (Display::width - (2* _padding)) / _columns;
+	int xGap = (Display::width - (2 * _padding)) / _columns;
 	int yGap = (Display::height - (2 * _padding)) / _rows;
 
 	for (int i = 0; i < _columns; i++)
 	{
 		for (int j = 0; j < _rows; j++)
 		{
-			DWM::samplePoints.push_back(VZ_POINT(2 *minX + i * xGap, minY + j * yGap));
+			DWM::samplePoints.push_back(VZ_POINT(2 * minX + i * xGap, minY + j * yGap));
 		}
 	}
 }
-
 bool Vizzy::is_point_in_rect(VZ_POINT _point, VZ_RECT _rect)
 {
 	return ((_point.x > _rect.left) && (_point.x < _rect.right) && (_point.y > _rect.top) && (_point.y < _rect.bottom));
 }
+void DWM::dwm_loopback() {
+	while (true)
+	{
+		// Updating our dataset of current open windows and checking collision with our sample points
+		DWM::query_active_windows();
+		DWM::isFocused = DWM::is_desktop_obscured(DWM::samplePoints, DWM::activeWindowList);
+		Sleep(DWM::DWM_UPDATE_INTERVAL);
 
+		// Loggin data
+		Debug::log("Desktop Obscuration State : ", DWM::isFocused);
+	}
+}

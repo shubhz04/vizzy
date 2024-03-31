@@ -25,6 +25,7 @@ namespace Vizzy {
 		void initialize();
 		void start();
 		void update();
+		void render();
 		void exit();
 
 		void resize(int _x, int _y);	
