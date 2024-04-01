@@ -5,6 +5,7 @@
 
 using namespace Vizzy;
 
+long DWM::APP_HWND;
 long DWM::WALLPAPER_WORKERW_HWND;
 long DWM::SHELLDLL_WORKERW_HWND;
 long DWM::SHELLDLL_HWND;
@@ -49,6 +50,7 @@ BOOL CALLBACK GET_WINDOWS_PROC(HWND hwnd, LPARAM lParam) {
 	// Return if window is not visible or is in exclusion list
 	if (!IsWindowVisible(hwnd)
 		|| length == 0
+		|| (long)hwnd == DWM::APP_HWND
 		|| title == L"Program Manager"
 		|| title == L"Windows Input Experience")
 		return TRUE;
@@ -87,8 +89,10 @@ BOOL CALLBACK GET_WINDOWS_PROC(HWND hwnd, LPARAM lParam) {
 
 
 
-void DWM::initialize()
+void DWM::initialize(long _hwnd)
 {
+	APP_HWND = _hwnd;
+
 	// Fetch the Progman window
 	HWND progman = FindWindow(L"ProgMan", NULL);
 	// Send 0x052C to Progman. This message directs Progman to spawn a 
@@ -187,6 +191,14 @@ void DWM::dwm_loopback() {
 		Sleep(DWM::DWM_UPDATE_INTERVAL);
 
 		// Loggin data
+
+		
 		Debug::log("Desktop Obscuration State : ", DWM::isFocused);
 	}
 }
+
+/*
+for (auto& i : DWM::activeWindowList) {
+			Debug::log("WINDOWS - ", i.name, i.rect.left, i.rect.top, i.rect.right, i.rect.bottom);
+		}
+*/

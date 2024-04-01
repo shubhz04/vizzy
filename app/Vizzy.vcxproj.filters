@@ -119,6 +119,9 @@
     <ClInclude Include="headers\utility\dwm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="headers\utility\vmath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="assets\text\readme.txt" />

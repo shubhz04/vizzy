@@ -23,5 +23,5 @@ void GameObject::update() {
 };
 
 void GameObject::render() {
-	SceneRenderer::render(mesh, material, transform.modelMatrix);
+	SceneRenderer::render(mesh, material, transform.modelMatrix,expansionOrigin,glm::vec2(transform.scale.x,transform.scale.y),maskRadius);
 };

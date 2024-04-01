@@ -172,6 +172,7 @@
     <ClInclude Include="headers\utility\files.h" />
     <ClInclude Include="headers\utility\resources.h" />
     <ClInclude Include="headers\utility\dwm.h" />
+    <ClInclude Include="headers\utility\vmath.h" />
     <ClInclude Include="headers\vizzy_internal.h" />
   </ItemGroup>
   <ItemGroup>

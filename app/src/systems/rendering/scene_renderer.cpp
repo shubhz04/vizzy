@@ -7,7 +7,7 @@
 using namespace Vizzy;
 
 
-void SceneRenderer::render(Mesh& _mesh, Material& _mat, glm::mat4 _modelMatrix)
+void SceneRenderer::render(Mesh& _mesh, Material& _mat, glm::mat4 _modelMatrix,glm::vec2 _expansionOrigin,glm::vec2 _size,float _radius)
 {
 	glUseProgram(_mat.shader);
 	glActiveTexture(GL_TEXTURE0);
@@ -17,9 +17,11 @@ void SceneRenderer::render(Mesh& _mesh, Material& _mat, glm::mat4 _modelMatrix)
 
 	glBindVertexArray(_mesh.VAO);
 
+	Shader::Vec2f(_mat.shader, "center", _expansionOrigin);
+	Shader::Vec2f(_mat.shader, "size", _size);
 	Shader::Mat4f(_mat.shader, "modelMatrix", _modelMatrix);
 	Shader::Vec4f(_mat.shader, "_MainColor", glm::vec4(0.2f, 0.3f, 0.5f, 1));
-	Shader::U1f(_mat.shader, "radius", sin(Time::time * 0.4f) * 1.5f);
+	Shader::U1f(_mat.shader, "radius", _radius);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
+	
 }

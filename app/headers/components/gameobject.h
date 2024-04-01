@@ -17,6 +17,11 @@ namespace Vizzy {
 		Vizzy::Material material;
 		Vizzy::Mesh mesh;
 		
+		// Remove in other projects
+		// --Custom Properties--
+		glm::vec2 expansionOrigin;
+		float maskRadius;
+		// ---------------------
 		GameObject(int _id = 0, const char* _name = "default-object");
 
 		void initialize() override;

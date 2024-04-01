@@ -3,18 +3,19 @@
 
 in vec2 _texCoords;
 
+// --- Customization Parameters ---
 uniform vec4 _MainColor;
 uniform sampler2D _PrimaryTex;
 uniform sampler2D _SecondaryTex;
 
 
 uniform float radius;
-uniform vec2 center;
-uniform vec2 size = vec2(800,600);
+uniform vec2 center; // Pos of the object in px
+uniform vec2 size;	 // Size of the object in px
+uniform vec2 screen; // Dimensions of the screen in px
+// --------------------------------
 
-//customize sdf
-
-//final output of this shader
+// Final output of this shader
 out vec4 fragColor;
 
 float sdf_circle(vec2 _samplePos,vec2 _center,float _radius){
@@ -37,9 +38,10 @@ float sdf_circle(vec2 _samplePos,vec2 _center,float _radius){
 
 
 void main(){
-	//fragColor = texture(_PrimaryTex,_texCoords) ;
+	// Transforms the mouse coords into uv space
+	vec2 relativePos = vec2(center.x / screen.x, center.y / screen.y) * normalize(size);
 	vec2 scaledTexCoords =  normalize(size) * _texCoords;
-	float mask = sdf_circle ( scaledTexCoords, center, radius);
+	float mask = sdf_circle (scaledTexCoords, relativePos, radius);
 
 	vec4 baseLayer = texture(_PrimaryTex, _texCoords) * vec4(mask);
 	vec4 topLayer = texture(_SecondaryTex, _texCoords) * vec4(1 - mask);

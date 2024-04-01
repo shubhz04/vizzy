@@ -13,7 +13,7 @@
 
 
 //app----->  (width | height| name | fps)
-Vizzy::App app(800, 600, "Vizzy", 75);
+Vizzy::App app(1366, 768, "Vizzy", 75);
 
 //fps-limiter => [VALUES IN SECONDS] 
 float targetFrameTime = 1.0f / app.targetFPS;
@@ -38,10 +38,14 @@ int main() {
 	glfwInit();
 
 	// Set window hints for creating the window and context.
+	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+
+	glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
+	app.width = mode->width;
+	app.height = mode->height;
 	// Create a window, and check if its created.
 	GLFWwindow* window = glfwCreateWindow(app.width, app.height, app.title, NULL, NULL);
 	if (window == NULL) {
@@ -52,7 +56,7 @@ int main() {
 
 	// Make the current context from the window.
 	glfwMakeContextCurrent(window);
-
+	
 	// Setting Vsync for not wasting GPU.
 	glfwSwapInterval(1);
 
@@ -82,9 +86,11 @@ int main() {
 
 #pragma endregion
 
+	long app_hwnd = (long)glfwGetWin32Window(window);
+
 	// Initializes utility classes.
-	Vizzy::Mouse::initialize((long)glfwGetWin32Window(window));
-	Vizzy::DWM::initialize();
+	Vizzy::Mouse::initialize(app_hwnd);
+	Vizzy::DWM::initialize(app_hwnd);
 
 	// Starts the input thread and DWM thread
 	std::thread inputThread(process_input);
@@ -93,6 +99,8 @@ int main() {
 	// Fires the app initalize events.
 	app.initialize();
 	app.start();
+
+	SetParent((HWND)app_hwnd, (HWND)Vizzy::DWM::WALLPAPER_WORKERW_HWND);
 
 	while (!glfwWindowShouldClose(window)) {
 
@@ -113,15 +121,17 @@ int main() {
 
 			// Draw the current state if the desktop is focused, (SAVES GPU!!)
 			if (!Vizzy::DWM::isFocused) {
-				app.render();
-				glfwSwapBuffers(window);
-			}
+				
+			}app.render();
+			glfwSwapBuffers(window);
 
 			// Resets the timebuffer after a frame is done
 			currFrameTimeBuffer = 0;
 
 			// Poll for window events
 			glfwPollEvents();
+
+			
 		}
 		else
 			currFrameTimeBuffer += Time::deltaTime;
@@ -131,12 +141,14 @@ int main() {
 	// exit-area
 	app.exit();
 
+	// Closes seperate threads by merging them
 	inputThread.detach();
 	dwmThread.detach();
 
-
+	// Detaches all hooks by disposing the module
 	Vizzy::Mouse::dispose();
 
+	// Clears any glfw resources
 	glfwTerminate();
 	return 0;
 }

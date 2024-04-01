@@ -57,6 +57,7 @@ namespace Vizzy {
 
 
 		// ----------- HWNDS -------------
+		static long APP_HWND;
 		static long WALLPAPER_WORKERW_HWND;
 		static long SHELLDLL_HWND;
 		static long SHELLDLL_LISTVIEW_HWND;
@@ -73,43 +74,25 @@ namespace Vizzy {
 		static std::vector<VZ_POINT> samplePoints;
 
 		// Initializes all the necessary handles 
-		static void initialize();
+		static void initialize(long _hwnd);
 
 		static void log_hwnds();
 
 		// Gets all user desktop windows rect and names
-		// Ignores system default windows which aren't visible
+		// Ignores some windows based on a exclusion rule
 		static bool query_active_windows();
 
 		// Sets up sample points 
 		static void configure_sample_points(int _padding, int _rows, int _columns);
+
+		// Checks if the desktop is obscured based on some dataset
 		static bool is_desktop_obscured(std::vector<VZ_POINT> _queryPoints, std::vector<VZ_WINDOW> _activeWindows);
 
 		// Runs a loop on seperate thread to continously check for desktop obscuration every n interval.
 		static void dwm_loopback();
+
 	};
 
 
 }
 
-
-/*
-
-
-
-//sends a window to the background of the icons view as a child
-	static void send_to_desktop(long _hwnd);
-
-	//checks if the desktop is obscured or not, to enable and pause playback
-	static bool is_desktop_obscured();
-
-	static bool is_shellview_focused();
-
-	static bool is_shell_workerw_focused();
-
-
-
-
-
-
-*/
